@@ -1,5 +1,10 @@
 <script setup>
-import { reactive } from 'vue';
+  import { reactive } from 'vue';
+  import Cabecalho from './components/Cabecalho.vue';
+  import Formulario from './components/Formulario.vue';
+  import ListaDeTarefas from './components/ListaDeTarefas.vue';
+
+
 
   const estado = reactive({
     filtro:'todas',
@@ -11,7 +16,7 @@ import { reactive } from 'vue';
       },
       {
         titulo:'Estudar SASS',
-        finalizada:true,
+        finalizada:false,
       },
       {
         titulo:"Ir para a academia",
@@ -50,12 +55,12 @@ import { reactive } from 'vue';
 </script>
 
 <template>
-  <div class="container">
-    <header class="p-5 mb-4 mt-4 bg-light rounded-3">
+
+    <!-- <header class="p-5 mb-4 mt-4 bg-light rounded-3">
       <h1>Minhas tarefas</h1>
       <p>Você possui {{ getTarefasPendentes().length }} tarefas pendentes</p>
-    </header>  
-    <form @submit.prevent="cadastraTarefa">
+    </header>   -->
+    <!-- <form @submit.prevent="cadastraTarefa">
       <div class="row">
         <div class="col">
           <input :value="estado.tarefaTemp" @change="evento => estado.tarefaTemp = evento.target.value" required type="text" placeholder="Digite aqui a descrição da tarefa" class="form-control">
@@ -71,16 +76,20 @@ import { reactive } from 'vue';
           </select>
         </div>
       </div>
-    </form>
-    {{ estado.filtro }}
-    <ul class="list-group mt-4">                  <!--estado.tarefas-->
+    </form> -->
+    <!-- {{ estado.filtro }} -->
+    <!-- <ul class="list-group mt-4">                  estado.tarefas
       <li class="list-group-item" v-for="tarefa in getTarefasFiltradas()">
         <input @change="evento => tarefa.finalizada = evento.target.checked" :checked="tarefa.finalizada" :id="tarefa.titulo" type="checkbox">
         <label :class="{ done: tarefa.finalizada}" class="ms-3" :for="tarefa.titulo">
           {{ tarefa.titulo }}
         </label>
       </li>
-    </ul>
+    </ul> -->  
+  <div class="container">
+    <Cabecalho :tarefas-pendentes="getTarefasPendentes().length" />
+    <Formulario :trocar-filtro="evento => estado.filtro = evento.target.value" :tarefa-temp="estado.tarefaTemp" :edita-tarefa-temp="evento => estado.tarefaTemp = evento.target.value" :cadastra-tarefa="cadastraTarefa"/>
+    <ListaDeTarefas :tarefas="getTarefasFiltradas()"/>
   </div>
 
 
